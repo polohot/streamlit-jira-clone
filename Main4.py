@@ -22,9 +22,10 @@ if 'selected_items' not in st.session_state:
 with tab1:
     st.header("Item Details")
 
+    if st.session_state['selected_item'] != None:
+        selected_item = st.query_params['selected_item']
 
-    selected_item = st.query_params['selected_item']
-    if selected_item:
+
         # GET DATA
         lsMotherJson = list(pathlib.Path(f"./itemHistory/{selected_item}").rglob('*'))
         lsMotherJson = [str(x) for x in lsMotherJson]

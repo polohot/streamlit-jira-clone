@@ -1,32 +1,39 @@
 import streamlit as st
-import pandas as pd
+import io
+import base64
 
-# Sample Data
-data = pd.DataFrame({
-    "A": ["Apple", "Banana", "Cherry", "Date", "Elderberry"],
-    "B": ["ClickA", "ClickB", "ClickC", "ClickD", "ClickE"]
-})
+# Initialize session state for log storage
+if 'lsLog' not in st.session_state:
+    st.session_state.lsLog = [{"topic": "TopicName", "owner": "OwnerName"}]
 
-# Initialize session state for storing selected items
-if "selected_items" not in st.session_state:
-    st.session_state.selected_items = []
+# Function to update display
+def add_log(input_text, input_image):
+    if input_text or input_image:
+        new_entry = {}
+        if input_text:
+            new_entry["Text"] = input_text
+        
+        if input_image:
+            # Convert the file to a base64 string for display
+            file_bytes = input_image.read()
+            encoded_image = base64.b64encode(file_bytes).decode()
+            new_entry["image"] = f"data:image/jpeg;base64,{encoded_image}"
+        
+        st.session_state.lsLog.append(new_entry)
+        st.rerun()
 
-def add_to_session_state(fruit):
-    st.session_state.selected_items.append(fruit)
-    st.rerun()
+# Display the first element and the latest entry
+st.subheader("Latest Log Entry")
+if len(st.session_state.lsLog) > 1:
+    st.write(st.session_state.lsLog[0])
+    st.write(st.session_state.lsLog[-1])
+else:
+    st.write(st.session_state.lsLog[0])
 
-st.write("### Click a button to add the corresponding fruit to the session state:")
+# Forum-style input form
+st.subheader("Add a Log Entry")
+input_text = st.text_area("Enter text:")
+input_image = st.file_uploader("Upload an image:", type=["png", "jpg", "jpeg"])
 
-def render_table():
-    table_data = []
-    for index, row in data.iterrows():
-        table_data.append([row["A"], st.button(row["B"], key=index, on_click=add_to_session_state, args=(row["A"],))])
-    return table_data
-
-# Show DataFrame with buttons in the second column
-st.write("### Data Table")
-st.dataframe(data, hide_index=True)
-
-# Display selected items
-st.write("### Selected Items:")
-st.write(st.session_state.selected_items)
+if st.button("Add Log"):
+    add_log(input_text, input_image)
