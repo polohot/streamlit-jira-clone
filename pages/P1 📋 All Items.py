@@ -1,55 +1,11 @@
-import streamlit as st
-import datetime
-import os
-import json
-import pathlib
-import pandas as pd
-import numpy as np
-from streamlit_quill import st_quill
+from utils123456 import *
+initconfig()
+loadconfig()
 
-#################
-# SESSION STATE #
-#################
-
-# USERNAME
-if 'username' not in st.session_state:
-    st.session_state['username'] = None
-# LS FOR FORM
-if 'lsSTATUS' not in st.session_state:
-    st.session_state['lsSTATUS'] = ['📋 Opened', '🔄 In Progress', '✅ Completed', '❌ Cancelled', '⏳ On Hold']
-if 'lsMEMBERS' not in st.session_state:
-    st.session_state['lsMEMBERS'] = ['Kwang','Long','Minmin','Gates','Pomm']
-if 'lsPRIORITY' not in st.session_state:
-    st.session_state['lsPRIORITY'] = ["🟢 Low", "🟡 Medium", "🔴 High"]
-# P1
-if 'dfALL' not in st.session_state:
-    st.session_state['dfALL'] = pd.DataFrame()
-if 'dfTAB1' not in st.session_state:
-    st.session_state['dfTAB1'] = pd.DataFrame()
-if 'dfTAB2' not in st.session_state:
-    st.session_state['dfTAB2'] = pd.DataFrame() 
-if 'dfTAB3' not in st.session_state:
-    st.session_state['dfTAB3'] = pd.DataFrame() 
-if 'dfTAB4' not in st.session_state:
-    st.session_state['dfTAB4'] = pd.DataFrame() 
-if 'eventT1' not in st.session_state:
-    st.session_state['eventT1'] = None
-if 'eventT2' not in st.session_state:
-    st.session_state['eventT2'] = None
-if 'eventT3' not in st.session_state:
-    st.session_state['eventT3'] = None
-if 'eventT4' not in st.session_state:
-    st.session_state['eventT4'] = None
-# P2 - VIEW ITEM
-if 'viewItemFolder' not in st.session_state:
-    st.session_state['viewItemFolder'] = None
-# P2 - TOPIC / LOG DICT
-if 'dictTOPIC0' not in st.session_state:
-    st.session_state['dictTOPIC0'] = None
-if 'dictTOPIC1' not in st.session_state:
-    st.session_state['dictTOPIC1'] = None
-if 'dictLOG' not in st.session_state:
-    st.session_state['dictLOG'] = None
+###############
+# PAGE CONFIG #
+###############
+st.set_page_config(page_title=None, page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 ###########
 # CONTENT #
@@ -60,7 +16,7 @@ def refreshdfALL():
     # dfALL #
     #########
     dfALL = pd.DataFrame()
-    dfALL['ITEM_PATH'] = [str(p).replace('\\','/')+'/' for p in pathlib.Path("./itemHistory").iterdir() if p.is_dir()]
+    dfALL['ITEM_PATH'] = [str(p).replace('\\','/')+'/' for p in pathlib.Path(st.session_state['ITEM_DIRECTORY']).iterdir() if p.is_dir()]
     dfALL['ITEM_ID_FULL'] = dfALL['ITEM_PATH'].str.split('/').str[-2]
     # GET ALL JSON IN PATH
     def getAllJson(path):
