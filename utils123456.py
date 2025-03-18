@@ -61,28 +61,4 @@ def loadconfig():
         'passminmin':'Minmin',
         'passpomm':'Pomm'}
     st.session_state['ADMIN_LIST'] = ['Gates','Pomm']
-    # # Directory containing config files
-    # config_dir = './config/'
-    # # Find all config files in the directory
-    # config_files = glob.glob(os.path.join(config_dir, '*.config'))
-    # # Check if there are any config files
-    # if not config_files:
-    #     st.error("No config files found in the directory.")
-    # else:
-    #     # Select the latest config file based on the modification time
-    #     latest_config_file = max(config_files, key=os.path.getmtime)
-    #     # Display the selected config file
-    #     #st.write(f"Loading config from: {latest_config_file}")
-    #     # Read the contents of the latest config file
-    #     with open(latest_config_file, 'r') as file:
-    #         config_data = file.read()
-    #     # Parse the config data (assuming it's in Python syntax)
-    #     exec(config_data)
-    #     # Load the parsed config data into session state
-    #     # st.session_state['ITEM_DIRECTORY'] = ITEM_DIRECTORY
-    #     # st.session_state['PASSWORD_DICT'] = PASSWORD_DICT
-    #     # st.session_state['ADMIN_LIST'] = ADMIN_LIST
-    #     # Display the loaded session state
-    #     # st.write("Config loaded into session state:")
-    #     # st.write(st.session_state)
 
